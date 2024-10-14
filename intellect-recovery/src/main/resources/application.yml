@@ -1,0 +1,26 @@
+server:
+  port: 10011
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://8.130.39.0:3306/intellect_recovery?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 829027Mm.0
+  redis:
+    host: 8.130.39.0
+    port: 6379
+    password: 829027Mm.0
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 100ms
+    servlet:
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 100MB
+admin:
+  username: admin123456
+  password: admin123456

@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk
+VOLUME /tmp/tomcat
+ADD app.jar springboot-docker.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/springboot-docker.jar"]
