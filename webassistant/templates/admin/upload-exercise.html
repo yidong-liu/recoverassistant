@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid add-form-list">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">从Word文档中批量导入题目</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="upload_form" action="{% url 'exercise:upload' %}" method="post" accept=".doc,.docx"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>目前仅支持word导入</label>
+                                    <input type="file" class="form-control image-file" name="file">
+                                    <button type="submit" class="btn btn-light mt-2">上传</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_code %}
+<script>
+    $(document).ready(function () {
+        // 你需要在 AJAX 请求中以 FormData 对象的形式包含 upload_file 字段的数据
+        let formData = new FormData();  // 获取表单 DOM 元素
+        formData.append('file', $(this)[0].files[0]);
+        {#formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');#}
+
+        $('#upload_form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'exercise:upload' %}",
+                method: 'post',
+                headers: { 'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val() },
+                data: formData,       // 当上传文件的时候，必须要这么构造data参数
+                contentType: false,   // 必须设置为 false
+                processData: false,  // 必须设置为 false
+                success: function (response) {
+                    if (response.code === 1) {
+                        alert('上传成功');
+                    } else {
+                        alert('上传失败');
+                    }
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

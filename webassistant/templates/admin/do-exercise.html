@@ -1,0 +1,100 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">
+                            {% if operate == 'random' %}
+                            随机刷题
+                            {% elif operate == 'detail' %}
+                            单题测试
+                            {% endif %}
+                        </h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p style="color: black">
+                        {% if exercise_type %}
+                        <span>（多选题）</span>
+                        {% else %}
+                        <span>（单选题）</span>
+                        {% endif %}
+                        <strong>{{ exercise.question }}</strong>
+                    </p>
+                    <form id="training_form" action="{% url 'exercise:do_exercise' %}?operate=random" method="post">
+                        {% csrf_token %}
+                        <input type="text" hidden="hidden" name="num" value="{{ num }}">
+                        <div class="checkbox d-inline-block mr-3">
+                            <input name="answer" type="radio" class="checkbox-input" id="checkbox1" value="A">
+                            <label for="checkbox1">A、{{ exercise.option_a }}</label>
+                        </div>
+                        <br>
+                        <div class="checkbox d-inline-block mr-3">
+                            <input name="answer" type="radio" class="checkbox-input" id="checkbox2" value="B">
+                            <label for="checkbox2">B、{{ exercise.option_b }}</label>
+                        </div>
+                        <br>
+                        <div class="checkbox d-inline-block mr-3">
+                            <input name="answer" type="radio" class="checkbox-input" id="checkbox3" value="C">
+                            <label for="checkbox3">C、{{ exercise.option_c}}</label>
+                        </div>
+                        <br>
+                        <div class="checkbox d-inline-block mr-3">
+                            <input name="answer" type="radio" class="checkbox-input" id="checkbox4" value="D">
+                            <label for="checkbox4">D、{{ exercise.option_d }}</label>
+                        </div>
+                        <br>
+                        {% if exercise.option_e %}
+                        <div class="checkbox d-inline-block mr-3">
+                            <input name="answer" type="radio" class="checkbox-input" id="checkbox5" value="E">
+                            <label for="checkbox5">E、{{ exercise.option_e }}</label>
+                        </div>
+                        <br>
+                        {% endif %}
+                        <button type="submit" class="btn btn-success mt-2">提交</button>
+                        {% if operate != 'detail' %}
+                        <a href="{% url 'exercise:do_exercise' %}?operate={{ operate }}" class="btn btn-danger mt-2">下一题</a>
+                        {% endif %}
+                        <a href="{% url 'exercise:collect' %}?operate={{ operate }}&collection=1&exercise_id={{ exercise.id }}"
+                            class="btn btn-primary mt-2">收藏</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_code %}
+<script>
+    $(document).ready(function () {
+        let ans = {{ exercise_type }};
+        if (ans) {
+            $('.checkbox-input').attr('type', 'checkbox');
+        } else {
+            $('.checkbox-input').attr('type', 'radio');
+        }
+        $('#training_form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'exercise:do_exercise' %}",
+                method: 'post',
+                headers: { 'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val() },
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.code === 1) {
+                        alert('回答正确');
+                    } else {
+                        alert('回答错误，正确答案为：' + response.correct_answer);
+                    }
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>注册</title>
+    <link rel="stylesheet" href="{% static 'css/backend-plugin.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/backend.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/line-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/remixicon.css' %}">
+    <style>
+        #error_summary label {
+            color: red;
+        }
+    </style>
+</head>
+<body class=" ">
+<div id="loading">
+    <div id="loading-center"></div>
+</div>
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container">
+            <div class="row align-items-center justify-content-center height-self-center">
+                <div class="col-lg-8">
+                    <div class="card auth-card">
+                        <div class="card-body p-0">
+                            <div class="d-flex align-items-center auth-content">
+                                <div class="col-lg-7 align-self-center">
+                                    <div class="p-3"><h2 class="mb-2">注册</h2>
+                                        <p>创建你的账号</p>
+                                        <form id="register_form" action="{% url 'user:register' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input id="name" name="name" class="floating-input form-control" type="text" placeholder="">
+                                                        <label>姓名</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input name="phone" class="floating-input form-control" type="text" placeholder="">
+                                                        <label>电话</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input id="password" name="password" class="floating-input form-control" type="password" placeholder="">
+                                                        <label>输入密码</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input name="confirm_password" class="floating-input form-control" type="password" placeholder="">
+                                                        <label>确认密码</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="custom-control custom-checkbox mb-3">
+                                                        <p id="error_summary"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" id="submit_btn" class="btn btn-primary">点击注册</button>
+                                            <p class="mt-3">
+                                                我已拥有账号
+                                                <a href="{% url 'user:login' %}" class="text-primary">登陆</a>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 content-right"><img src="{% static 'picture/012.png' %}"
+                                                                         class="img-fluid image-right" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="{% static 'js/backend-bundle.min.js' %}"></script>
+<script src="{% static 'js/table-treeview.js' %}"></script>
+<script src="{% static 'js/customizer.js' %}"></script>
+<script async="" src="{% static 'js/chart-custom.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/jquery-3.7.0.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#register_form').validate({
+            // 制定表单验证的规则
+            rules: {
+                name: "required",
+                phone: "required",
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                confirm_password: {
+                    required: true,
+                    equalTo: "#password"
+                }
+            },
+            // 编写提示表单文字
+            messages: {
+                name: {
+                    required: "姓名不能为空！",
+                },
+                phone: "电话号码不能为空！",
+                password: {
+                    required: "密码不能为空！",
+                    minlength: "密码长度不小于6个字符！"
+                },
+                confirm_password: {
+                    required: "请再次输入密码！",
+                    equalTo: "两次输入密码不一致！",
+                }
+            },
+            // 自定义错误信息显示位置
+            errorPlacement: function (error, div) {
+                $('#error_summary').append(error);
+            },
+            // 表单验证成功后，通过ajax提交表单
+            submitHandler: function(form) {
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        if (response.code) {
+                            alert("注册成功！");
+                            window.location.href="{% url 'user:login' %}";
+                        } else {
+                            alert("姓名或电话已存在");
+                            window.location.href="{% url 'user:register' %}";
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

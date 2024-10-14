@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container-fluid add-form-list">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">添加反馈</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="add_form" action="{% url 'user:add_feedback' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>反馈描述</label>
+                                    <textarea name="description" class="form-control" id="exampleFormControlTextarea1"
+                                        rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">添加</button>
+                        <button type="reset" class="btn btn-danger">重置</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_code %}
+<script>
+    $(document).ready(function () {
+        $('#add_form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'user:add_feedback' %}",
+                method: 'post',
+                headers: { 'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val() },
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.code === 1) {
+                        alert('添加成功');
+                        window.location.reload();
+                    } else {
+                        alert('添加失败');
+                        window.location.reload();
+                    }
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

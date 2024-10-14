@@ -1,0 +1,78 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-transparent card-block card-stretch card-height border-none">
+                            <div class="card-body p-0 mt-lg-2 mt-0">
+                                <h3 class="mb-3">{{ user_name }}，<strong id="hello">您好！</strong></h3>
+                                <p class="mb-0 mr-4">智能问答</p>
+                                <p class="mb-0 mr-4">{% now "Y年 m月d日 H:i" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card card-block card-stretch card-height" style="height: 800px;">
+
+
+                                <!-- 在此处加载智能问答 -->
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-3 mt-4">
+                                            <div class="card">
+                                                <h4 class="card-header text-center">知识问答系统</h4>
+                                                <br>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="{% url 'user:create_dialog' %}" class="btn btn-primary mb-3" onclick="">创建新对话 </a>
+                                                </div>
+                                                <label for="temperature" class="form-label">Temperature:</label>
+                                                <div class="d-flex justify-content-center">
+                                                    <input class="form-control mb-2" type="number" step="0.01" min="0" max="2" name="temperature" value="{{ temperature }}" id="temperature"  style="width: 90%;">
+                                                </div>
+                                                <label for="temperature" class="form-label">当前模型:</label>
+                                                <div class="d-flex justify-content-center">
+                                                    <input class="form-control mb-2" type="number" step="0.01" min="0" max="2" placeholder="chatglm3-6b" disabled style="width: 90%;">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 mt-4" style="height: 700px; overflow: auto;">
+                                            <div class="card">
+                                                <h4 class="card-header text-center">QA</h4>
+                                                <div class="card-body">
+
+                                                    <div class="chat-history mb-3">
+                                                        {% for message in messages %}
+                                                        <div class="card mb-2 {% if message.role == 'assistant' %}bg-success text-white{% endif %}">
+                                                            <div class="card-body p-2">
+                                                                <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+
+
+
+                                                    <input class="form-control mb-2" required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="" placeholder="用户输入区">
+                                                    <button class="btn btn-success fw-bold" type="submit">
+                                                        点击生成
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+{% endblock %}

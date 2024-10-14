@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card car-transparent">
+                <div class="card-body p-0">
+                    <div class="profile-image position-relative">
+                        <img src="{% static 'picture/profile.png' %}" class="img-fluid rounded w-100" alt="profile-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-lg-4 card-profile">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="profile-img position-relative">
+                                <img src="{% static 'picture/1.png' %}" class="img-fluid rounded avatar-110" alt="profile-image">
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="mb-1">{{ user.name }}</h4>
+                                <p class="mb-2" style="font-size: 14px">加入时间<br>{{ user.create_time }}</p>
+                                <p class="btn btn-primary font-size-14">{{ user.phone }}</p>
+                            </div>
+                        </div>
+                        <p>欢迎来到基于ChatGLM的医疗知识问答系统！</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 card-profile">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <ul class="d-flex nav nav-pills mb-3 text-center profile-tab" id="profile-pills-tab"
+                            role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show" data-toggle="pill" href="#profile1" role="tab" aria-selected="false">
+                                    反馈信息
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#profile2" role="tab" aria-selected="false">
+                                    日志记录
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="profile-content tab-content">
+                            <div id="profile1" class="tab-pane fade active show">
+                                <p>此处收集您最近的反馈信息</p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <ul class="list-inline p-0 m-0">
+                                            <li class="mb-4">
+                                                <hr>
+                                                <div class="d-flex align-items-center pt-2">
+                                                    测试一下能否输出反馈信息
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="profile2" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>这里面记录了您最近的日志信息</p>
+                                        <ul class="list-inline p-0 m-0">
+                                            <li class="mb-4">
+                                                <hr>
+                                                <div class="d-flex align-items-center pt-2">
+                                                    测试一下能否输出反馈信息
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

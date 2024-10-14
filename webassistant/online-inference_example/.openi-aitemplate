@@ -1,0 +1,89 @@
+[
+  {
+    "Name": "鹏城脑海大模型在线推理",
+    "Description": "",
+    "JobType": "ONLINEINFERENCE",
+    "Cluster": "C2Net",
+    "ComputeSource": "GPU",
+    "HasInternet": 2,
+    "AccCardsNum": 1,
+    "AccCardType": "V100",
+    "CpuCores": 8,
+    "MemGiB": 50,
+    "GPUMemGiB": 32,
+    "ShareMemGiB": 0,
+    "Image": {
+      "ImageID": "",
+      "ImageName": "",
+      "ImageUrl": "192.168.204.22:5000/default-workspace/99280a9940ae44ca8f5892134386fddb/image:Llama3"
+    },
+    "PretrainModelList": [
+      {
+        "ID": "00df7dca-602b-4037-8c60-737111ec2e4e",
+        "ModelName": "PCMind-7B-1T-Transformers"
+      }
+    ],
+    "DatasetList": [],
+    "BranchName": "master",
+    "BootFile": "pcmind_7B_example/pcmind_7B_gradio.py",
+    "Parameters": []
+  },
+  {
+    "Name": "SDXL1.0在线推理",
+    "Description": "",
+    "JobType": "ONLINEINFERENCE",
+    "Cluster": "C2Net",
+    "ComputeSource": "GPU",
+    "HasInternet": 2,
+    "AccCardsNum": 1,
+    "AccCardType": "V100",
+    "CpuCores": 8,
+    "MemGiB": 50,
+    "GPUMemGiB": 32,
+    "ShareMemGiB": 0,
+    "Image": {
+      "ImageID": "",
+      "ImageName": "",
+      "ImageUrl": "192.168.242.22:443/default-workspace/2a72307689ae49758c80c896fffda0a1/image:stable-diffusion-api-webui-v3"
+    },
+    "PretrainModelList": [
+      {
+        "ID": "7286640d-95ee-4906-9a2c-af77cf200d85",
+        "ModelName": "stable-diffusion-xl-base-1.0"
+      }
+    ],
+    "DatasetList": [],
+    "BranchName": "master",
+    "BootFile": "stable_diffusion_example/checkpoint_webui.py",
+    "Parameters": []
+  },
+  {
+    "Name": "SD3在线推理",
+    "Description": "",
+    "JobType": "ONLINEINFERENCE",
+    "Cluster": "C2Net",
+    "ComputeSource": "GPU",
+    "HasInternet": 2,
+    "AccCardsNum": 1,
+    "AccCardType": "V100",
+    "CpuCores": 8,
+    "MemGiB": 50,
+    "GPUMemGiB": 32,
+    "ShareMemGiB": 0,
+    "Image": {
+      "ImageID": "",
+      "ImageName": "",
+      "ImageUrl": "192.168.242.22:443/default-workspace/2a72307689ae49758c80c896fffda0a1/image:stable-diffusion-api-webui-v3"
+    },
+    "PretrainModelList": [
+      {
+        "ID": "afb2fbe6-8cfd-4fe8-8e5d-834b396131ab",
+        "ModelName": "stable-diffusion-3-medium-diffusers"
+      }
+    ],
+    "DatasetList": [],
+    "BranchName": "master",
+    "BootFile": "stable_diffusion_example/sd3_webui.py",
+    "Parameters": []
+  }
+]

@@ -1,0 +1,131 @@
+{% load static %}
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>登陆</title>
+    <link rel="stylesheet" href="{% static 'css/backend-plugin.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/backend.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/line-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/remixicon.css' %}">
+    <style>
+        #error_summary label {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="loading">
+    <div id="loading-center"></div>
+</div>
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container">
+            <div class="row align-items-center justify-content-center height-self-center">
+                <div class="col-lg-8">
+                    <div class="card auth-card">
+                        <div class="card-body p-0">
+                            <div class="d-flex align-items-center auth-content">
+                                <div class="col-lg-7 align-self-center">
+                                    <div class="p-3"><h2 class="mb-2">登陆</h2>
+                                        <p>基于ChatGLM的医疗知识问答系统</p>
+                                        <form id="login_form" action="{% url 'user:login' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="floating-label form-group">
+                                                        <input name="name" class="floating-input form-control" type="text" placeholder=" ">
+                                                        <label>姓名</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="floating-label form-group">
+                                                        <input name="password" class="floating-input form-control" type="password" placeholder=" ">
+                                                        <label>密码</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="custom-control custom-checkbox mb-3">
+                                                        <input type="checkbox" class="custom-control-input" name="maintain_entry"
+                                                            id="customCheck1">
+                                                        <label class="custom-control-label control-label-1"
+                                                            for="customCheck1">十天内免登陆
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <p id="error_summary"></p>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">点击登陆</button>
+                                            <p class="mt-3">
+                                                创建一个用户
+                                                <a href="{% url 'user:register' %}" class="text-primary">注册</a>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 content-right">
+                                    <img src="{% static 'picture/012.png' %}" class="img-fluid image-right" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="{% static 'js/backend-bundle.min.js' %}"></script>
+<script src="{% static 'js/table-treeview.js' %}"></script>
+<script src="{% static 'js/customizer.js' %}"></script>
+<script async="" src="{% static 'js/chart-custom.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/jquery-3.7.0.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#login_form').validate({
+            // 制定表单验证的规则
+            rules: {
+                name:"required",
+                password: "required",
+            },
+            // 编写提示表单文字
+            messages: {
+                name: {
+                    required: "姓名不能为空！",
+                },
+                password: {
+                    required: "密码不能为空！",
+                },
+            },
+            // 自定义错误信息显示位置
+            errorPlacement: function (error, div) {
+                $('#error_summary').append(error);
+            },
+            // 表单验证成功后，通过ajax提交表单（注意：如果在rules中进行了ajax请求，那么submitHandler就会失效）
+            submitHandler: function(form) {
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        if (response.code === 1) {
+                            window.location.href="{% url 'user:chat' %}";
+                        } else {
+                            alert("账号密码不正确");
+                            window.location.href="{% url 'user:login' %}";
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
